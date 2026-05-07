@@ -1975,6 +1975,9 @@ section, main, header, footer { max-width: 100%; }
   color: #333;
 }
 
+/* 20px breathing room when CTA buttons scroll to this section */
+#contact { scroll-margin-top: 20px; }
+
 /* sec16  Figma: padding 80px 0 / gap 40px / bg #CAE7F5 */
 /* ============================================================
  * SEC16 — 資料請求フォームエリア

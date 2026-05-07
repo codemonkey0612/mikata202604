@@ -14,11 +14,13 @@ $(function () {
   });
 
   // ── Smooth scroll for href="#contact" ──
+  // Use scrollIntoView so position is recalculated during scroll,
+  // which avoids stopping short when images above #contact haven't loaded yet.
   $(document).on('click', 'a[href="#contact"]', function (e) {
     e.preventDefault();
-    var target = $('#contact');
-    if (target.length) {
-      $('html,body').animate({ scrollTop: target.offset().top - 20 }, 500);
+    var target = document.getElementById('contact');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 
@@ -37,6 +39,14 @@ $(function () {
     $('#tag_y').addClass('off').removeClass('on');
     $('#rc_form_y').removeClass('is_active');
     $('#rc_form_d').addClass('is_active');
+  });
+
+  // ── Zip code → address auto-fill (skip arrow/nav keys to match production behaviour) ──
+  $(document).on('keyup', '[name="y_zip"]', function (e) {
+    var navKeys = [9, 16, 17, 18, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, 93];
+    if (navKeys.indexOf(e.which) === -1) {
+      AjaxZip3.zip2addr(this, '', 'y_pref', 'y_address01');
+    }
   });
 
   // ── FAQ accordion toggle ──

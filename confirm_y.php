@@ -103,16 +103,16 @@ $_SESSION['lp_m06_Tabflag']   = 'y';
 <footer id="svgFooter">
   <div class="footer_nav">
     <nav class="footer_nav_inner">
-      <a href="https://mikata-ins.co.jp/policy/solicitation/" target="_blank">勧誘方針</a>
+      <a href="https://mikata-ins.co.jp/company/policy/invite" target="_blank" rel="noopener">勧誘方針</a>
       <span class="footer_divider" aria-hidden="true">|</span>
-      <a href="https://mikata-ins.co.jp/policy/privacy/" target="_blank">個人情報のお取扱い</a>
+      <a href="https://mikata-ins.co.jp/company/policy/privacy" target="_blank" rel="noopener">個人情報のお取扱い</a>
       <span class="footer_divider" aria-hidden="true">|</span>
-      <a href="https://mikata-ins.co.jp/company/" target="_blank">運営会社</a>
+      <a href="https://mikata-ins.co.jp/company" target="_blank" rel="noopener">運営会社</a>
     </nav>
   </div>
-  <div class="footer_copy" id="f_copy">
+  <div class="footer_copy">
     <p class="footer_copy_text">Copyright(C)ミカタ少額短期保険株式会社 All rights reserved.</p>
-    <p class="footer_copy_code">M2021営推01711</p>
+    <p class="footer_copy_code">M2026営推01304</p>
   </div>
 </footer>
 
