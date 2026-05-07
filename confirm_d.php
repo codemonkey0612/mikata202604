@@ -88,9 +88,9 @@ $_SESSION['lp_m06_Tabflag']   = 'd';
 <footer id="svgFooter">
   <div class="footer_nav">
     <nav class="footer_nav_inner">
-      <a href="https://mikata-ins.co.jp/company/policy/invite" target="_blank" rel="noopener">勧誘方針</a>
-      <span class="footer_divider" aria-hidden="true">|</span>
       <a href="https://mikata-ins.co.jp/company/policy/privacy" target="_blank" rel="noopener">個人情報のお取扱い</a>
+      <span class="footer_divider" aria-hidden="true">|</span>
+      <a href="https://mikata-ins.co.jp/company/policy/invite" target="_blank" rel="noopener">勧誘方針</a>
       <span class="footer_divider" aria-hidden="true">|</span>
       <a href="https://mikata-ins.co.jp/company" target="_blank" rel="noopener">運営会社</a>
     </nav>

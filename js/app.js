@@ -41,14 +41,6 @@ $(function () {
     $('#rc_form_d').addClass('is_active');
   });
 
-  // ── Zip code → address auto-fill (skip arrow/nav keys to match production behaviour) ──
-  $(document).on('keyup', '[name="y_zip"]', function (e) {
-    var navKeys = [9, 16, 17, 18, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, 93];
-    if (navKeys.indexOf(e.which) === -1) {
-      AjaxZip3.zip2addr(this, '', 'y_pref', 'y_address01');
-    }
-  });
-
   // ── FAQ accordion toggle ──
   $(document).on('click', '.sec14_q', function () {
     $(this).closest('.sec14_item').toggleClass('is_open');
