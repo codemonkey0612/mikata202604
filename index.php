@@ -693,7 +693,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="form_row<?php echo !empty($err_y['y_zip']) ? ' is_error' : ''; ?>">
           <label class="form_label">郵便番号 <span class="form_req">必須</span></label>
-          <input class="form_input form_input_zip" type="text" name="y_zip" value="<?php echo h(isset($y['y_zip']) ? $y['y_zip'] : ''); ?>" placeholder="例：1030006（ハイフンなし）" onKeyUp="var _k=event.keyCode||event.which;if(_k===37||_k===39)AjaxZip3.zip2addr(this,'','y_pref','y_address01');else AjaxZip3.zip2addr(this,'','y_pref','y_address01','','',false);">
+          <input class="form_input form_input_zip" type="text" name="y_zip" value="<?php echo h(isset($y['y_zip']) ? $y['y_zip'] : ''); ?>" placeholder="例：1030006（ハイフンなし）" onKeyUp="AjaxZip3.zip2addr(this,'','y_pref','y_address01','','',false);">
           <span class="form_hint">※入力すると住所が自動で表示されます</span>
           <?php if (!empty($err_y['y_zip'])): ?><span class="err_msg"><?php echo h($err_y['y_zip']); ?></span><?php endif; ?>
         </div>
