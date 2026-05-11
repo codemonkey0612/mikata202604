@@ -14,14 +14,20 @@ $(function () {
   });
 
   // ── Smooth scroll for href="#contact" ──
-  // Use scrollIntoView so position is recalculated during scroll,
-  // which avoids stopping short when images above #contact haven't loaded yet.
+  // Many images above #contact have loading="lazy", so on first click their height
+  // is 0 and the scroll stops short. After the first scroll those images have loaded,
+  // so we verify position and re-scroll once if needed.
   $(document).on('click', 'a[href="#contact"]', function (e) {
     e.preventDefault();
     var target = document.getElementById('contact');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () {
+      var top = target.getBoundingClientRect().top;
+      if (top > 30 || top < -5) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 1000);
   });
 
   // ── Tab switching ──
