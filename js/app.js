@@ -14,15 +14,25 @@ $(function () {
   });
 
   // ── Smooth scroll for href="#contact" ──
-  // Custom rAF animation that recalculates the target Y on every frame.
-  // Lazy-loaded images above #contact grow as they load, pushing the form
-  // further down mid-scroll; recalculating each frame keeps the scroll
-  // tracking the live position so it lands accurately in one motion.
+  // Exponential smoothing animation. Every frame we move a fixed fraction of the
+  // remaining distance to the live target. When lazy-loaded images above #contact
+  // load mid-scroll and push the form further down, the scroll smoothly
+  // accelerates toward the new position rather than jumping — one continuous
+  // motion that lands on the form.
   var _scrollAnimId = null;
   $(document).on('click', 'a[href="#contact"]', function (e) {
     e.preventDefault();
     var target = document.getElementById('contact');
     if (!target) return;
+
+    // Kick all lazy images above #contact into eager loading immediately so
+    // the target stabilises as soon as possible.
+    var contactInitY = target.getBoundingClientRect().top + window.pageYOffset;
+    document.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+      if (img.getBoundingClientRect().top + window.pageYOffset < contactInitY) {
+        img.loading = 'eager';
+      }
+    });
 
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       window.scrollTo(0, target.getBoundingClientRect().top + window.pageYOffset - 20);
@@ -31,25 +41,46 @@ $(function () {
 
     if (_scrollAnimId) cancelAnimationFrame(_scrollAnimId);
 
-    var startY = window.pageYOffset;
-    var startTime = null;
-    var duration = 700;
+    var currentY = window.pageYOffset;
+    var lastTime = null;
+    var settledFrames = 0;
+    var frameCount = 0;
 
     function getTargetY() {
       return target.getBoundingClientRect().top + window.pageYOffset - 20;
     }
 
     function step(now) {
-      if (startTime === null) startTime = now;
-      var t = Math.min((now - startTime) / duration, 1);
-      var ease = 1 - Math.pow(1 - t, 3);
-      window.scrollTo(0, startY + (getTargetY() - startY) * ease);
-      if (t < 1) {
-        _scrollAnimId = requestAnimationFrame(step);
+      if (lastTime === null) lastTime = now;
+      var dt = Math.min((now - lastTime) / 16.667, 2);
+      lastTime = now;
+      frameCount++;
+
+      var targetY = getTargetY();
+      var dist = targetY - currentY;
+      // Framerate-independent exponential smoothing (~10% per 60fps frame)
+      var k = 1 - Math.pow(0.9, dt);
+      currentY += dist * k;
+      window.scrollTo(0, currentY);
+
+      if (Math.abs(dist) < 1) {
+        if (++settledFrames > 3) {
+          window.scrollTo(0, targetY);
+          _scrollAnimId = null;
+          return;
+        }
       } else {
-        window.scrollTo(0, getTargetY());
-        _scrollAnimId = null;
+        settledFrames = 0;
       }
+
+      // Safety cap (~2s at 60fps)
+      if (frameCount > 120) {
+        window.scrollTo(0, targetY);
+        _scrollAnimId = null;
+        return;
+      }
+
+      _scrollAnimId = requestAnimationFrame(step);
     }
     _scrollAnimId = requestAnimationFrame(step);
   });
